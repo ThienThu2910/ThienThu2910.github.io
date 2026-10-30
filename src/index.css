@@ -250,6 +250,156 @@ html.dark .hover-lift:hover {
   transform: translateY(-2px);
 }
 
+/* ============================================================
+   HOLLOWMERE ILLUSTRATED DESCENT SCENES, SEAMS & SPRITES
+   ============================================================ */
+:root {
+  --spritesheet: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20261029_023917_156ac3d3-e103-4a95-947d-07554914ab0b.png&w=1024&q=85');
+  --artH: calc(100vw * 1520 / 2688);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --artH: max(calc(100vw * 1520 / 2688), 92svh);
+  }
+}
+
+.hollow-scene {
+  position: relative;
+  min-height: var(--artH);
+  width: 100%;
+  overflow-x: clip;
+}
+
+.hollow-art-bg {
+  position: absolute;
+  inset: 0;
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Dark theme overlay enhancement so illustrations have deep mysterious aura */
+.dark .hollow-art-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, transparent 40%, rgba(17, 10, 42, 0.35) 90%);
+  pointer-events: none;
+}
+
+/* Light theme subtle brightness reduction so dark illustrations remain gorgeous */
+:not(.dark) .hollow-art-bg {
+  opacity: 0.85;
+}
+
+.hollow-seam {
+  position: relative;
+  height: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hollow-seam-band {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  aspect-ratio: 2688 / 1152;
+  transform: translateY(-50%);
+}
+
+.hollow-seam-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 1;
+  display: block;
+}
+
+canvas.hollow-fall {
+  position: absolute;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  -webkit-mask-image: 
+    linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%);
+  mask-image: 
+    linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  z-index: 2;
+}
+
+.hollow-seam-band canvas.hollow-fall {
+  z-index: 0;
+}
+
+canvas.hollow-dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Sprites */
+.hollow-sprite {
+  position: absolute;
+  background-image: var(--spritesheet);
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 4;
+  will-change: transform;
+}
+
+.hollow-ghost {
+  filter: drop-shadow(0 0 10px rgba(170, 235, 255, 0.45));
+}
+
+.ghost1 {
+  aspect-ratio: 204 / 221;
+  background-size: calc(1024 / 204 * 100%) calc(688 / 221 * 100%);
+  background-position: calc(39 / (1024 - 204) * 100%) calc(103 / (688 - 221) * 100%);
+}
+
+.ghost2 {
+  aspect-ratio: 152 / 212;
+  background-size: calc(1024 / 152 * 100%) calc(688 / 212 * 100%);
+  background-position: calc(303 / (1024 - 152) * 100%) calc(122 / (688 - 212) * 100%);
+}
+
+.ghost3 {
+  aspect-ratio: 208 / 201;
+  background-size: calc(1024 / 208 * 100%) calc(688 / 201 * 100%);
+  background-position: calc(538 / (1024 - 208) * 100%) calc(125 / (688 - 201) * 100%);
+}
+
+.ghost4 {
+  aspect-ratio: 131 / 280;
+  background-size: calc(1024 / 131 * 100%) calc(688 / 280 * 100%);
+  background-position: calc(833 / (1024 - 131) * 100%) calc(70 / (688 - 280) * 100%);
+}
+
+.hollow-bat {
+  aspect-ratio: 203 / 221;
+  background-size: calc(1024 / 203 * 100%) calc(688 / 221 * 100%);
+  background-position: calc(41 / (1024 - 203) * 100%) calc(389 / (688 - 221) * 100%);
+}
+
+.hollow-bat.down {
+  aspect-ratio: 195 / 221;
+  background-size: calc(1024 / 195 * 100%) calc(688 / 221 * 100%);
+  background-position: calc(299 / (1024 - 195) * 100%) calc(389 / (688 - 221) * 100%);
+}
+
 
 .cyber-glow-indigo {
   text-shadow: 0 0 16px rgba(129, 140, 248, 0.6), 0 0 32px rgba(99, 102, 241, 0.2);
