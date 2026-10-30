@@ -130,15 +130,18 @@ export const candidate = {
   };
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-[88vh] flex items-center justify-center pt-24 pb-16 overflow-hidden"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          {/* Left Column: Core Positioning & Pitch */}
+    /*
+     * NOTE: id="hero" is on the <section> in App.tsx, NOT here.
+     * This component only renders its internal layout.
+     * Padding-top is 0 because orbit-scroll-body already accounts
+     * for the fixed header height.
+     */
+    <div className="w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div className="w-full max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* ── Left Column ── */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            {/* Live Status Pill — Orbit style */}
+            {/* Live Status Pill */}
             <div className="orbit-anim-brand orbit-status-pill mb-6">
               <span className="orbit-dot" />
               <span>
@@ -148,10 +151,13 @@ export const candidate = {
               </span>
             </div>
 
-            {/* Name — Orbit line reveal animation */}
-            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.1] mb-3" style={{ color: '#ffffff' }}>
+            {/* Name — line reveal */}
+            <h1
+              className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.1] mb-4"
+              style={{ color: '#ffffff' }}
+            >
               <span className="orbit-ln block">
-                <span className="orbit-ln-i" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                <span className="orbit-ln-i" style={{ color: 'rgba(255,255,255,0.75)' }}>
                   {language === 'vi' ? 'Xin chào, tôi là' : "Hi, I'm"}
                 </span>
               </span>
@@ -490,6 +496,6 @@ export const candidate = {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };

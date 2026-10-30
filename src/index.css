@@ -13,18 +13,15 @@
 
 /* ── 1. CSS VARIABLES ────────────────────────────────────── */
 :root {
-  /* Orbit scaling unit — measured on 1563 × 1006 reference */
-  --u: max(min(calc(100vw / 1563), calc(100vh / 460)), 0.80px);
-
   /* Easings */
   --e-reveal: cubic-bezier(.18,.85,.26,1);
   --e-soft:   cubic-bezier(.22,1,.36,1);
   --e-nav:    cubic-bezier(.33,1,.68,1);
   --ease:     cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Rise distances for entrance animation */
-  --rise:    calc(10 * var(--u));
-  --rise-lg: calc(13 * var(--u));
+  /* Animation rise distances (px-based, not scaling unit) */
+  --rise:    10px;
+  --rise-lg: 13px;
 
   /* Color palette */
   --color-night:      #07060F;
@@ -37,40 +34,40 @@
   --color-indigo:     #818CF8;
   --color-ember:      #FF9A3C;
 
+  /* Header heights — used for offset calculations */
+  --navbar-h:    72px;   /* Navbar height */
+  --telebar-h:   36px;   /* AITelemetryBar height */
+  --header-total: calc(var(--navbar-h) + var(--telebar-h));
+
   /* Typography */
   --font-heading: 'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
   --font-body:    'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
 }
 
-@supports (height: 100dvh) {
-  :root {
-    --u: max(min(calc(100vw / 1563), calc(100dvh / 460)), 0.80px);
-  }
-}
-@supports not (width: max(1px, 1vw)) {
-  :root { --u: calc(100vw / 1563); }
-}
-
 /* ── 2. BASE RESET ───────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Prevent horizontal overflow on all screens */
+  overflow-x: hidden;
+}
 
 html, body {
   height: 100%;
   margin: 0;
-  /* Space-black base — shows through transparent glass */
   background: var(--color-night);
   color: var(--color-ink);
-  overflow-x: hidden;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
 }
 
-/* Suppress any light-mode resets — this site is always dark (space) */
+/* Always-dark site — no light-mode theming */
 body, .dark body, html.dark body {
   background-color: var(--color-night);
   color: var(--color-ink);
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -82,7 +79,7 @@ code, pre, .font-mono {
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: rgba(112, 224, 255, 0.20);
@@ -100,7 +97,6 @@ code, pre, .font-mono {
 
 /* ── 3. ORBIT ROOT LAYOUT ────────────────────────────────── */
 
-/* Root wrapper: full page, no overflow, relative stacking */
 .orbit-root {
   position: relative;
   min-height: 100vh;
@@ -130,43 +126,70 @@ code, pre, .font-mono {
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(7,6,15,.08)  0%,    /* hero: nearly transparent — planet shines through */
-    rgba(7,6,15,.55)  35%,   /* about/skills: moderate darkening */
-    rgba(7,6,15,.72)  65%,   /* projects/education: stronger */
-    rgba(7,6,15,.82) 100%    /* contact/footer: darkest */
+    rgba(7,6,15,.05)  0%,
+    rgba(7,6,15,.50)  35%,
+    rgba(7,6,15,.70)  65%,
+    rgba(7,6,15,.80) 100%
   );
+}
+
+/* ── 4. HEADER STACK (Navbar + Telemetry Bar) ────────────── */
+
+/*
+ * Both Navbar and AITelemetryBar are sticky/fixed at the top.
+ * We use a fixed wrapper to stack them cleanly.
+ *
+ * Layout:
+ *   [orbit-header-fixed]  ← position: fixed, z-index: 100
+ *     ├── Navbar          ← height: ~72px
+ *     └── AITelemetryBar  ← height: ~36px
+ *
+ * orbit-scroll-body gets padding-top equal to total header height
+ * so nothing is hidden behind the fixed header.
+ */
+
+.orbit-header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Scrollable content layer — above fixed video + veil */
 .orbit-scroll-body {
   position: relative;
   z-index: 10;
+  /* Push content below the fixed header (navbar + telemetry bar) */
+  padding-top: var(--header-total);
 }
 
-/* ── 4. SECTIONS ─────────────────────────────────────────── */
+/* ── 5. SECTIONS ─────────────────────────────────────────── */
 
 .orbit-section {
   position: relative;
   width: 100%;
 }
 
-/* Hero section — minimal padding, full bleed, video visible */
+/* Hero section — fills remaining viewport height below header */
 .orbit-section-hero {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--header-total));
   display: flex;
   align-items: center;
 }
 
 /* Glass section wrapper for non-hero sections */
 .orbit-glass-section {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 5rem 1.5rem;
+  padding: 5rem 2rem;
 }
 
-/* ── 5. GLASSMORPHISM CARDS & PANELS ─────────────────────── */
+/* ── 6. GLASSMORPHISM CARDS & PANELS ─────────────────────── */
 
-/* Primary glass surface */
 .glass-panel,
 .orbit-glass {
   background: var(--color-glass-bg);
@@ -182,7 +205,6 @@ code, pre, .font-mono {
     box-shadow 0.3s var(--ease);
 }
 
-/* Light-mode override — never fires (site is always dark) */
 .dark .glass-panel, html.dark .glass-panel {
   background: var(--color-glass-bg);
   border-color: var(--color-glass-bd);
@@ -206,9 +228,8 @@ code, pre, .font-mono {
     0 0 0 1px rgba(112, 224, 255, 0.12);
 }
 
-/* ── 6. TYPOGRAPHY HELPERS ───────────────────────────────── */
+/* ── 7. TYPOGRAPHY HELPERS ───────────────────────────────── */
 
-/* All text defaults to space palette */
 .text-body    { color: var(--color-ink); }
 .text-muted   { color: var(--color-ink-muted); }
 .text-cyan    { color: var(--color-cyan); }
@@ -234,31 +255,46 @@ code, pre, .font-mono {
   max-width: 800px;
 }
 
-/* ── 7. NAVBAR ───────────────────────────────────────────── */
+/* ── 8. NAVBAR COMPONENT ─────────────────────────────────── */
 
-/* Navbar: glass strip pinned to top */
-nav.navbar,
-header.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-
-/* When scrolled */
-nav.navbar.scrolled,
-header.navbar.scrolled {
-  background: rgba(7, 6, 15, 0.82);
+/*
+ * Navbar is rendered INSIDE .orbit-header-fixed.
+ * It does NOT use position:fixed or position:sticky itself —
+ * the parent wrapper handles that.
+ */
+.orbit-navbar-inner {
+  width: 100%;
+  background: rgba(7, 6, 15, 0.60);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   backdrop-filter: blur(20px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ── 8. BUTTONS ──────────────────────────────────────────── */
+.orbit-navbar-inner.scrolled {
+  background: rgba(7, 6, 15, 0.88);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.40);
+}
 
-/* Ghost / outline button */
+/* ── 9. AI TELEMETRY BAR ─────────────────────────────────── */
+
+/*
+ * Telemetry bar sits directly below navbar inside .orbit-header-fixed.
+ * Height is fixed at var(--telebar-h) = 36px.
+ */
+.orbit-telebar {
+  width: 100%;
+  height: var(--telebar-h);
+  display: flex;
+  align-items: center;
+  background: rgba(5, 4, 12, 0.80);
+  border-bottom: 1px solid rgba(112, 224, 255, 0.08);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* ── 10. BUTTONS ─────────────────────────────────────────── */
+
 .orbit-btn-ghost {
   display: inline-flex;
   align-items: center;
@@ -282,7 +318,6 @@ header.navbar.scrolled {
   transform: translateY(-1px);
 }
 
-/* Solid / primary button */
 .orbit-btn-solid {
   display: inline-flex;
   align-items: center;
@@ -306,7 +341,6 @@ header.navbar.scrolled {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-/* Cyan accent button */
 .orbit-btn-cyan {
   display: inline-flex;
   align-items: center;
@@ -330,7 +364,6 @@ header.navbar.scrolled {
   transform: translateY(-1px);
 }
 
-/* Legacy ember-btn compatibility — map to orbit-btn-cyan */
 .ember-btn {
   transition: transform 0.18s ease, box-shadow 0.18s ease !important;
 }
@@ -339,7 +372,7 @@ header.navbar.scrolled {
   box-shadow: 0 8px 32px rgba(112, 224, 255, 0.20) !important;
 }
 
-/* ── 9. STATUS / BADGE PILLS ─────────────────────────────── */
+/* ── 11. STATUS / BADGE PILLS ────────────────────────────── */
 
 .orbit-status-pill {
   display: inline-flex;
@@ -358,7 +391,6 @@ header.navbar.scrolled {
   backdrop-filter: blur(10px);
 }
 
-/* Animated radar dot in pills */
 .orbit-dot {
   position: relative;
   width: 0.5rem;
@@ -383,11 +415,9 @@ header.navbar.scrolled {
   100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* ── 10. ENTRANCE ANIMATION ──────────────────────────────── */
+/* ── 12. ENTRANCE ANIMATION ──────────────────────────────── */
 
 @media (prefers-reduced-motion: no-preference) {
-
-  /* Hidden initial states */
   html.orbit-intro .orbit-anim-brand,
   html.orbit-intro .orbit-anim-pill,
   html.orbit-intro .orbit-anim-p,
@@ -401,7 +431,6 @@ header.navbar.scrolled {
     will-change: transform;
   }
 
-  /* Keyframes */
   @keyframes orbit-rise {
     from { opacity: 0; transform: translate3d(0, var(--rise), 0); }
     to   { opacity: 1; transform: none; }
@@ -423,33 +452,18 @@ header.navbar.scrolled {
     to   { transform: none; }
   }
 
-  /* Active (triggered by JS) */
-  html.orbit-play .orbit-anim-brand {
-    animation: orbit-rise   .62s var(--e-nav)  0.00s both;
-  }
-  html.orbit-play .orbit-anim-pill {
-    animation: orbit-pill-in .62s var(--e-soft) 0.26s both;
-  }
-  html.orbit-play .orbit-anim-p {
-    animation: orbit-fade-up .70s var(--e-soft) 0.86s both;
-  }
-  html.orbit-play .orbit-anim-cta {
-    animation: orbit-btn    .62s var(--e-soft)  1.00s both;
-  }
-  html.orbit-play .orbit-ln-i {
-    animation: orbit-line   .95s var(--e-reveal) 0.34s both;
-  }
-  html.orbit-play .orbit-ln-i + .orbit-ln-i,
-  html.orbit-play .orbit-ln:nth-child(2) .orbit-ln-i {
-    animation-delay: .48s;
-  }
+  html.orbit-play .orbit-anim-brand { animation: orbit-rise    .62s var(--e-nav)   0.00s both; }
+  html.orbit-play .orbit-anim-pill  { animation: orbit-pill-in .62s var(--e-soft)  0.26s both; }
+  html.orbit-play .orbit-anim-p     { animation: orbit-fade-up .70s var(--e-soft)  0.86s both; }
+  html.orbit-play .orbit-anim-cta   { animation: orbit-btn     .62s var(--e-soft)  1.00s both; }
+  html.orbit-play .orbit-ln-i       { animation: orbit-line    .95s var(--e-reveal) 0.34s both; }
+  html.orbit-play .orbit-ln:nth-child(2) .orbit-ln-i { animation-delay: .48s; }
 
-  /* Line mask helpers */
   .orbit-ln {
     display: block;
     overflow: hidden;
-    padding-bottom: calc(7 * var(--u));
-    margin-bottom: calc(-7 * var(--u));
+    padding-bottom: 8px;
+    margin-bottom: -8px;
   }
   .orbit-ln-i { display: block; }
 }
@@ -467,7 +481,7 @@ header.navbar.scrolled {
   }
 }
 
-/* ── 11. FLOATING ANIMATIONS ─────────────────────────────── */
+/* ── 13. FLOATING ANIMATIONS ─────────────────────────────── */
 
 @keyframes float-slow {
   0%, 100% { transform: translateY(0); }
@@ -481,18 +495,13 @@ header.navbar.scrolled {
   0%, 100% { opacity: 1; }
   50%      { opacity: 0; }
 }
-@keyframes shimmer-star {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.3); }
-}
 
 .animate-float         { animation: float-slow    5s ease-in-out infinite; }
 .animate-float-reverse { animation: float-reverse 6s ease-in-out infinite; }
 .animate-cursor        { animation: blink-cursor  1s step-end  infinite; }
 
-/* ── 12. CYBER HUD / IDE CARD ────────────────────────────── */
+/* ── 14. CYBER HUD / IDE CARD ────────────────────────────── */
 
-/* IDE-style card corners */
 .cyber-corners { position: relative; }
 .cyber-corners::before {
   content: '';
@@ -515,7 +524,6 @@ header.navbar.scrolled {
   z-index: 1;
 }
 
-/* Radar scan line */
 @keyframes radar-scan {
   0%   { top: 0%; opacity: 1; }
   95%  { top: 100%; opacity: 1; }
@@ -535,14 +543,12 @@ header.navbar.scrolled {
   pointer-events: none;
 }
 
-/* Cyan glow text effect */
 .cyber-glow-cyan {
   filter: drop-shadow(0 0 18px rgba(112, 224, 255, 0.55));
 }
 
-/* ── 13. GLOW ACCENTS ────────────────────────────────────── */
+/* ── 15. GLOW ACCENTS ────────────────────────────────────── */
 
-/* Radial ambient glow — space accent colors */
 .orbit-glow-cyan {
   position: absolute;
   border-radius: 50%;
@@ -559,7 +565,7 @@ header.navbar.scrolled {
   animation: float-reverse 10s ease-in-out infinite;
 }
 
-/* ── 14. SECTION HEADINGS ────────────────────────────────── */
+/* ── 16. SECTION HEADINGS ────────────────────────────────── */
 
 .orbit-section-heading {
   font-family: var(--font-heading);
@@ -574,14 +580,10 @@ header.navbar.scrolled {
   line-height: 1.6;
 }
 
-/* ── 15. TAILWIND DARK-MODE OVERRIDES ────────────────────── */
-/* Force all dark: utilities to apply since the site is always dark */
+/* ── 17. TAILWIND DARK-MODE COMPATIBILITY ────────────────── */
 
-/* Navbar/header background when transparent */
-.bg-transparent { background-color: transparent !important; }
-
-/* Common Tailwind dark: classes that need forcing in space mode */
-.dark\:text-white    { color: #ffffff; }
+/* Force dark: variants since the site is always in dark mode */
+.dark\:text-white     { color: #ffffff; }
 .dark\:text-slate-100 { color: #f1f5f9; }
 .dark\:text-slate-200 { color: #e2e8f0; }
 .dark\:text-slate-300 { color: #cbd5e1; }
@@ -593,14 +595,7 @@ header.navbar.scrolled {
 .dark\:bg-white\/\[0\.05\]    { background-color: rgba(255,255,255,0.05); }
 .dark\:bg-white\/\[0\.08\]    { background-color: rgba(255,255,255,0.08); }
 
-/* ── 16. BLUEPRINT (UNUSED — kept for compat) ─────────────── */
-.bg-blueprint,
-.bg-blueprint-dark,
-.bg-blueprint-light {
-  background-color: transparent;
-}
-
-/* ── 17. FOCUS VISIBLE ───────────────────────────────────── */
+/* ── 18. FOCUS VISIBLE ───────────────────────────────────── */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid rgba(112, 224, 255, 0.80);
@@ -608,7 +603,25 @@ button:focus-visible {
   border-radius: 4px;
 }
 
-/* ── 18. RESPONSIVE TWEAKS ───────────────────────────────── */
+/* ── 19. RESPONSIVE ──────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .orbit-glass-section {
+    padding: 4rem 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  :root {
+    --navbar-h:    60px;
+    --telebar-h:   32px;
+  }
+  .orbit-glass-section {
+    padding: 3rem 1rem;
+  }
+}
 
 /* Ultra-wide: video covers full bottom half */
 @media (min-aspect-ratio: 3/1) {
@@ -623,9 +636,9 @@ button:focus-visible {
   }
 }
 
-/* Mobile: tighter glass section padding */
-@media (max-width: 640px) {
-  .orbit-glass-section {
-    padding: 3rem 1rem;
-  }
+/* Blueprint compat (unused) */
+.bg-blueprint,
+.bg-blueprint-dark,
+.bg-blueprint-light {
+  background-color: transparent;
 }

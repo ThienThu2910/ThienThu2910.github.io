@@ -16,8 +16,8 @@ import { ContactSection } from './sections/ContactSection';
 
 function PortfolioApp() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Global keydown listener for Ctrl+K / Cmd+K
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -25,31 +25,33 @@ function PortfolioApp() {
         setIsCommandPaletteOpen((prev) => !prev);
       }
     };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
-    /*
-     * ORBIT DESIGN SYSTEM
-     * ─────────────────────────────────────────────────────
-     * The space video is pinned fixed behind everything.
-     * All sections scroll over it with glassmorphism panels.
-     * No HOLLOWMERE halloween overlay — clean space aesthetic.
-     */
     <div className="orbit-root">
 
-      {/* ── Fixed space video background (always visible behind every section) ── */}
+      {/* ── Layer 0: Fixed space video behind everything ── */}
       <OrbitHeroBackground />
 
-      {/* ── Global darkening gradient: stronger on lower sections ── */}
+      {/* ── Layer 1: Fixed page veil (darkens lower sections) ── */}
       <div className="orbit-page-veil" />
 
-      {/* ── Sticky Navigation ── */}
-      <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
-
-      {/* ── AI Telemetry Bar ── */}
-      <AITelemetryBar />
+      {/* ── Layer 100: Fixed header = Navbar stacked above AITelemetryBar ──
+           Both components live inside one fixed container so they never
+           overlap each other, and orbit-scroll-body pads for their total height. */}
+      <div className={`orbit-header-fixed orbit-navbar-inner${isScrolled ? ' scrolled' : ''}`}>        <Navbar
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        />
+        <AITelemetryBar />
+      </div>
 
       {/* ── Command Palette ── */}
       <CommandPalette
@@ -57,62 +59,49 @@ function PortfolioApp() {
         onClose={() => setIsCommandPaletteOpen(false)}
       />
 
-      {/* ── Scrollable content sits above fixed video ── */}
+      {/* ── Scrollable content: padding-top = navbar-h + telebar-h ── */}
       <div className="orbit-scroll-body">
 
-        {/* ════════════════════════════════════════════════
-            HERO  — video visible at full opacity
-            ════════════════════════════════════════════════ */}
+        {/* HERO */}
         <section id="hero" className="orbit-section orbit-section-hero">
           <HeroSection />
         </section>
 
-        {/* ════════════════════════════════════════════════
-            ABOUT ME  — glass panel over space
-            ════════════════════════════════════════════════ */}
+        {/* ABOUT ME */}
         <section id="about" className="orbit-section">
           <div className="orbit-glass-section">
             <AboutSection />
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════
-            SKILLS  — glass panel over space
-            ════════════════════════════════════════════════ */}
+        {/* SKILLS */}
         <section id="skills" className="orbit-section">
           <div className="orbit-glass-section">
             <SkillsSection />
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════
-            PROJECTS  — glass panel over space
-            ════════════════════════════════════════════════ */}
+        {/* PROJECTS */}
         <section id="projects" className="orbit-section">
           <div className="orbit-glass-section">
             <ProjectsSection />
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════
-            EDUCATION  — glass panel over space
-            ════════════════════════════════════════════════ */}
+        {/* EDUCATION */}
         <section id="education" className="orbit-section">
           <div className="orbit-glass-section">
             <EducationSection />
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════
-            CONTACT  — glass panel over space
-            ════════════════════════════════════════════════ */}
+        {/* CONTACT */}
         <section id="contact" className="orbit-section">
           <div className="orbit-glass-section">
             <ContactSection />
           </div>
         </section>
 
-        {/* ── Footer ── */}
         <Footer />
       </div>
 
