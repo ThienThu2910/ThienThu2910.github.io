@@ -31,8 +31,8 @@ export const educationItems: EducationItem[] = [
       },
     ],
     status: {
-      vi: 'Đang theo học (Năm 2)',
-      en: 'Currently Studying (Year 2)',
+      vi: 'Đang theo học (Năm 3)',
+      en: 'Currently Studying (Year 3)',
     },
   },
 ];
