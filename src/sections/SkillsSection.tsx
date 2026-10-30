@@ -142,7 +142,7 @@ export const SkillsSection: FC = () => {
         {/* Categories Grid */}
         <div className="space-y-8">
           {displayedCategories.map((cat) => (
-            <div key={cat.id} className="p-6 sm:p-7 rounded-3xl glass-panel relative overflow-hidden">
+            <div key={cat.id} className="p-6 sm:p-7 rounded-3xl glass-panel relative overflow-hidden cyber-corners">
               {/* Category Header */}
               <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-3 border-b border-slate-200 dark:border-white/[0.08]">
                 <div>

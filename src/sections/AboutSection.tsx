@@ -23,7 +23,7 @@ export const AboutSection: FC = () => {
         {/* Modern Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6">
           {/* Bento Card 1: Main Story (8 Cols) */}
-          <div className="md:col-span-7 lg:col-span-8 p-6 sm:p-8 rounded-3xl glass-panel hover-lift relative overflow-hidden flex flex-col justify-between">
+          <div className="md:col-span-7 lg:col-span-8 p-6 sm:p-8 rounded-3xl glass-panel hover-lift relative overflow-hidden flex flex-col justify-between cyber-corners">
             <div className="relative z-10">
               <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center mb-5">
                 <BookOpen className="w-5 h-5" />

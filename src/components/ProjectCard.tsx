@@ -138,7 +138,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, onSelect }) => {
   };
 
   return (
-    <article className="group rounded-3xl glass-panel hover-lift flex flex-col overflow-hidden border border-slate-200/80 dark:border-white/[0.08] shadow-sm hover:shadow-2xl transition-all duration-300">
+    <article className="group rounded-3xl glass-panel hover-lift flex flex-col overflow-hidden border border-slate-200/80 dark:border-white/[0.08] shadow-sm hover:shadow-2xl transition-all duration-300 cyber-corners">
       {/* Mockup Preview Banner */}
       <div className="relative h-52 w-full border-b border-slate-200 dark:border-white/[0.08] overflow-hidden">
         {renderMockupBanner()}

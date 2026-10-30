@@ -1,5 +1,5 @@
 import { useState, useEffect, type FC, type MouseEvent } from 'react';
-import { Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sparkles, Command } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
@@ -7,6 +7,10 @@ import { LanguageToggle } from './LanguageToggle';
 interface NavItem {
   id: string;
   label: { vi: string; en: string };
+}
+
+interface NavbarProps {
+  onOpenCommandPalette?: () => void;
 }
 
 const navItems: NavItem[] = [
@@ -17,7 +21,7 @@ const navItems: NavItem[] = [
   { id: 'contact', label: { vi: 'Liên hệ', en: 'Contact' } },
 ];
 
-export const Navbar: FC = () => {
+export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
   const { language, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -117,6 +121,18 @@ export const Navbar: FC = () => {
 
           {/* Action Tools & Contact CTA */}
           <div className="hidden sm:flex items-center gap-2">
+            {onOpenCommandPalette && (
+              <button
+                onClick={onOpenCommandPalette}
+                type="button"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100/80 dark:bg-white/[0.06] hover:bg-slate-200 dark:hover:bg-white/[0.1] border border-slate-200/80 dark:border-white/[0.08] transition-all hover:scale-105"
+                title="Mở bảng điều khiển nhanh (Ctrl + K)"
+                aria-label="Mở bảng điều khiển nhanh"
+              >
+                <Command className="w-3.5 h-3.5 text-cyan-500" />
+                <span className="font-semibold text-slate-800 dark:text-slate-200">⌘K</span>
+              </button>
+            )}
             <LanguageToggle />
             <ThemeToggle />
             <a
@@ -131,6 +147,17 @@ export const Navbar: FC = () => {
 
           {/* Mobile Menu Toggle */}
           <div className="flex sm:hidden items-center gap-1.5">
+            {onOpenCommandPalette && (
+              <button
+                onClick={onOpenCommandPalette}
+                type="button"
+                className="p-1.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/[0.08] transition-colors font-mono text-xs flex items-center gap-1 border border-slate-200/60 dark:border-white/[0.08]"
+                title="Mở Quick Actions"
+                aria-label="Mở Quick Actions"
+              >
+                <Command className="w-3.5 h-3.5 text-cyan-400" />
+              </button>
+            )}
             <LanguageToggle />
             <ThemeToggle />
             <button

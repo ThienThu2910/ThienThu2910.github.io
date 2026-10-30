@@ -1,20 +1,49 @@
 import { useState, type FC, type MouseEvent } from 'react';
-import { ArrowDown, Mail, MapPin, GraduationCap, Copy, Check, Play, FileCode } from 'lucide-react';
+import {
+  ArrowDown,
+  Mail,
+  MapPin,
+  GraduationCap,
+  Copy,
+  Check,
+  Play,
+  FileCode,
+  Bot,
+  Sparkles,
+  Terminal,
+} from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
+import { useScrambleText } from '../hooks/useScrambleText';
 import { profileData } from '../data/profile';
 import { GithubIcon, LinkedinIcon } from '../components/Icons';
 
 export const HeroSection: FC = () => {
   const { language, t } = useLanguage();
   const [copiedCode, setCopiedCode] = useState(false);
-  const [activeTab, setActiveTab] = useState<'code' | 'output'>('code');
+  const [activeTab, setActiveTab] = useState<'code' | 'output' | 'ai'>('code');
+  const [isCompiling, setIsCompiling] = useState(false);
+  const [consoleLogs, setConsoleLogs] = useState<string[]>([
+    '$ pnpm run verify:candidate-profile',
+    '✓ Target: Trương Thiện Thư (IT Student)',
+    '✓ Campus: Đại học Bình Dương – Phân hiệu Cà Mau',
+    '✓ Architecture: Modular Systems & Clean Code',
+    '✓ Core Projects: ALTF4 Hotel, EquipTrack, CPU Simulator',
+    'STATUS: 0 ERRORS · ALL CHECKS PASSED',
+  ]);
+
+  const rawRoleText =
+    language === 'vi'
+      ? 'Định hướng Kỹ thuật Phần mềm & AI'
+      : 'Web, Software & AI Engineering Focus';
+
+  const { displayText: scrambledRole, replay: replayScramble } = useScrambleText(rawRoleText, 30);
 
   const developerCodeSnippet = `// developer.config.ts
 export const candidate = {
   name: "Trương Thiện Thư",
   role: "IT Student / Web Developer",
   university: "BDU Ca Mau Campus",
-  academicYear: "Year 2 (2024 - Present)",
+  academicYear: "Year 2/3 (2024 - Present)",
   coreStack: ["PHP", "React", "C++", "MySQL", "Docker"],
   philosophy: "Modular design & robust logic",
   availableForInternship: true,
@@ -28,6 +57,22 @@ export const candidate = {
     } catch (err) {
       console.error('Failed to copy code snippet', err);
     }
+  };
+
+  const handleRunScript = () => {
+    setIsCompiling(true);
+    setConsoleLogs(['$ initiating live simulation build...']);
+    setTimeout(() => {
+      setConsoleLogs((prev) => [
+        ...prev,
+        '> analyzing software modules: [ALTF4_HOTEL, EQUIPTRACK, CPU_SCHEDULER]',
+        '> database migrations: MySQL relational schema verified',
+        '> docker container runtime: MinIO object storage connected',
+        '✓ ALL COMPILATION TARGETS BUILT IN 128ms',
+        'STATUS: PRODUCTION READY · CANDIDATE VERIFIED',
+      ]);
+      setIsCompiling(false);
+    }, 600);
   };
 
   const handleScrollToSection = (e: MouseEvent<HTMLAnchorElement>, targetId: string) => {
@@ -47,35 +92,39 @@ export const candidate = {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Core Positioning & Pitch */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            {/* Live Availability Status Pill */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-6 shadow-sm">
+            {/* Live Availability Status Pill with AI Radar */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium border border-cyan-500/30 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 mb-6 shadow-sm backdrop-blur-md">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
               </span>
               <span>
                 {language === 'vi'
-                  ? 'Sinh viên năm 2 CNTT · Sẵn sàng thực tập Web & Software'
-                  : '2nd-Year IT Student · Open to Web & Software Roles'}
+                  ? 'Sinh viên CNTT · Sẵn sàng thực tập Web & Software'
+                  : 'IT Undergraduate · Open to Web & Software Roles'}
               </span>
             </div>
 
-            {/* Name with Gradient Shine */}
+            {/* Name with Gradient Shine & AI Hologram Accent */}
             <h1 className="text-4xl sm:text-6xl lg:text-6xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-3">
               <span className="block text-slate-800 dark:text-slate-100">
                 {language === 'vi' ? 'Xin chào, tôi là' : "Hi, I'm"}
               </span>
-              <span className="bg-gradient-to-r from-indigo-500 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-500 via-cyan-400 to-teal-400 bg-clip-text text-transparent cyber-glow-cyan">
                 {profileData.name}
               </span>
             </h1>
 
-            {/* Sub-headline: Role & Direction */}
-            <div className="flex flex-wrap items-center gap-2 text-base sm:text-xl font-heading font-semibold text-slate-700 dark:text-slate-300 mb-4">
+            {/* Sub-headline: Role & Direction with Scramble Matrix Effect */}
+            <div
+              onMouseEnter={replayScramble}
+              className="flex flex-wrap items-center gap-2 text-base sm:text-xl font-heading font-semibold text-slate-700 dark:text-slate-300 mb-4 cursor-pointer group"
+              title="Click hoặc rê chuột để kích hoạt Matrix Decoding"
+            >
               <span>{t(profileData.role)}</span>
               <span className="text-cyan-500 dark:text-cyan-400">·</span>
-              <span className="text-indigo-600 dark:text-cyan-400">
-                {language === 'vi' ? 'Định hướng Kỹ thuật Phần mềm & Web' : 'Web & Software Engineering Focus'}
+              <span className="text-indigo-600 dark:text-cyan-400 font-mono tracking-wide underline decoration-cyan-400/40 underline-offset-4 group-hover:decoration-cyan-400">
+                {scrambledRole}
               </span>
             </div>
 
@@ -118,9 +167,9 @@ export const candidate = {
             </div>
 
             {/* Social Proof & Quick Channels */}
-            <div className="flex items-center gap-3 pt-3 border-t border-slate-200 dark:border-white/[0.08] w-full max-w-md">
-              <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
-                {language === 'vi' ? 'Kênh kỹ thuật:' : 'Technical Links:'}
+            <div className="flex items-center gap-3 pt-2 text-xs font-mono text-slate-500 dark:text-slate-400">
+              <span className="text-[11px] uppercase tracking-wider">
+                {language === 'vi' ? 'Kênh kết nối:' : 'Channels:'}
               </span>
 
               {profileData.contact.githubUrl ? (
@@ -163,9 +212,12 @@ export const candidate = {
             </div>
           </div>
 
-          {/* Right Column: High-End Interactive IDE Showcase */}
+          {/* Right Column: High-End Interactive Cyber IDE & AI Copilot Showcase */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl bg-[#090E1A] border border-slate-700/80 dark:border-white/[0.12] shadow-2xl shadow-indigo-950/40 overflow-hidden backdrop-blur-xl">
+            <div className="relative rounded-2xl bg-[#090E1A] border border-cyan-500/30 dark:border-white/[0.12] shadow-2xl shadow-indigo-950/40 overflow-hidden backdrop-blur-xl cyber-corners">
+              {/* Animated Radar Scanning Line */}
+              <div className="cyber-scanline" />
+
               {/* Window Header */}
               <div className="flex items-center justify-between px-4 py-2.5 bg-[#0d1527] border-b border-slate-800">
                 <div className="flex items-center gap-2">
@@ -190,6 +242,19 @@ export const candidate = {
                   </button>
 
                   <button
+                    onClick={() => setActiveTab('ai')}
+                    type="button"
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-colors ${
+                      activeTab === 'ai'
+                        ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    <Bot className="w-3 h-3 text-cyan-400 animate-pulse" />
+                    <span>copilot.ai</span>
+                  </button>
+
+                  <button
                     onClick={() => setActiveTab('output')}
                     type="button"
                     className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md transition-colors ${
@@ -198,7 +263,7 @@ export const candidate = {
                         : 'text-slate-400 hover:text-slate-200'
                     }`}
                   >
-                    <Play className="w-3 h-3 text-emerald-400" />
+                    <Terminal className="w-3 h-3 text-emerald-400" />
                     <span>console.sh</span>
                   </button>
                 </div>
@@ -220,10 +285,13 @@ export const candidate = {
               </div>
 
               {/* Window Content */}
-              {activeTab === 'code' ? (
-                <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed text-slate-300 overflow-x-auto selection:bg-cyan-500/30 flex">
+              {activeTab === 'code' && (
+                <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed text-slate-300 overflow-x-auto selection:bg-cyan-500/30 flex min-h-[220px]">
                   {/* Line Numbers */}
-                  <div className="select-none pr-3 text-right text-slate-600 space-y-1 font-mono text-[11px]" aria-hidden="true">
+                  <div
+                    className="select-none pr-3 text-right text-slate-600 space-y-1 font-mono text-[11px]"
+                    aria-hidden="true"
+                  >
                     <div>01</div>
                     <div>02</div>
                     <div>03</div>
@@ -232,8 +300,6 @@ export const candidate = {
                     <div>06</div>
                     <div>07</div>
                     <div>08</div>
-                    <div>09</div>
-                    <div>10</div>
                   </div>
 
                   {/* Code Lines */}
@@ -255,17 +321,11 @@ export const candidate = {
                       <span className="text-emerald-300">"BDU Ca Mau Campus"</span>,
                     </p>
                     <p className="pl-3">
-                      <span className="text-indigo-300">year</span>:{' '}
-                      <span className="text-amber-400">2</span>,
-                    </p>
-                    <p className="pl-3">
                       <span className="text-indigo-300">coreStack</span>: [
                       <span className="text-emerald-300">"PHP"</span>,{' '}
                       <span className="text-emerald-300">"React"</span>,{' '}
-                      <span className="text-emerald-300">"C++"</span>,{' '}
                       <span className="text-emerald-300">"MySQL"</span>,{' '}
-                      <span className="text-emerald-300">"Docker"</span>
-                      ],
+                      <span className="text-emerald-300">"Docker"</span>],
                     </p>
                     <p className="pl-3">
                       <span className="text-indigo-300">mindset</span>:{' '}
@@ -275,44 +335,97 @@ export const candidate = {
                       <span className="text-indigo-300">readyForInternship</span>:{' '}
                       <span className="text-emerald-400 font-bold">true</span>,
                     </p>
-                    <p>&#125;;<span className="inline-block w-1.5 h-3 bg-cyan-400 ml-1 animate-cursor" /></p>
+                    <p>
+                      &#125;;
+                      <span className="inline-block w-1.5 h-3 bg-cyan-400 ml-1 animate-cursor" />
+                    </p>
                   </div>
-                </div>
-              ) : (
-                /* Simulated Console Output */
-                <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed text-slate-300 space-y-2 bg-[#060A13]">
-                  <p className="text-slate-500">$ pnpm run verify:candidate-profile</p>
-                  <p className="text-cyan-400 flex items-center gap-2">
-                    <span className="text-emerald-400">✓</span> Target: Trương Thiện Thư (Year 2 IT)
-                  </p>
-                  <p className="text-cyan-400 flex items-center gap-2">
-                    <span className="text-emerald-400">✓</span> Campus: Đại học Bình Dương – Phân hiệu Cà Mau
-                  </p>
-                  <p className="text-cyan-400 flex items-center gap-2">
-                    <span className="text-emerald-400">✓</span> Core Projects: ALTF4 Hotel, EquipTrack, CPU Scheduler
-                  </p>
-                  <p className="text-emerald-400 flex items-center gap-2 font-bold pt-2 border-t border-slate-800">
-                    <span>STATUS: 0 ERRORS · READY FOR OPPORTUNITIES</span>
-                  </p>
                 </div>
               )}
 
-              {/* Status bar */}
+              {/* AI Copilot Tab Content */}
+              {activeTab === 'ai' && (
+                <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed text-slate-300 space-y-3 bg-[#060A13] min-h-[220px]">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px] text-cyan-400">
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>NEURAL SYNTHESIS ENGINE</span>
+                    </span>
+                    <span className="text-emerald-400">MODEL: GEMINI-PRO / AGY</span>
+                  </div>
+
+                  <p className="text-slate-400">
+                    <span className="text-purple-400 font-bold">PROMPT &gt;</span> "Analyze Thiện Thư engineering suitability for web/software projects"
+                  </p>
+
+                  <div className="space-y-1.5 pl-3 border-l-2 border-cyan-500/40 text-slate-300">
+                    <p className="text-cyan-300 font-semibold">&gt; KEY CAPABILITIES DETECTED:</p>
+                    <p>• Multi-tier Coursework: ALTF4 Hotel (PHP/MySQL), EquipTrack (MinIO/Docker)</p>
+                    <p>• Systems & Algorithms: CPU Scheduling Simulator</p>
+                    <p>• Learning Velocity: High adaptation to modern stacks</p>
+                  </div>
+
+                  <div className="pt-2 text-emerald-400 font-bold flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-400" />
+                    <span>RECOMMENDATION: QUALIFIED FOR INTERNSHIP & TEAM INTEGRATION</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Console Output Tab */}
+              {activeTab === 'output' && (
+                <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed text-slate-300 space-y-2 bg-[#060A13] min-h-[220px]">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px]">
+                    <span className="text-slate-400">TERMINAL SESSION #01</span>
+                    <button
+                      onClick={handleRunScript}
+                      disabled={isCompiling}
+                      type="button"
+                      className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 flex items-center gap-1 font-semibold transition-colors disabled:opacity-50"
+                    >
+                      <Play className="w-3 h-3" />
+                      <span>{isCompiling ? 'Running...' : 'Run Simulation'}</span>
+                    </button>
+                  </div>
+
+                  <div className="space-y-1">
+                    {consoleLogs.map((log, idx) => (
+                      <p
+                        key={idx}
+                        className={
+                          log.startsWith('✓') || log.startsWith('STATUS:')
+                            ? 'text-emerald-400 font-bold'
+                            : log.startsWith('>')
+                            ? 'text-cyan-400'
+                            : 'text-slate-400'
+                        }
+                      >
+                        {log}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Window Status Bar */}
               <div className="px-4 py-2 border-t border-slate-800 text-[11px] font-mono text-slate-500 flex items-center justify-between bg-[#080d1a]">
-                <span className="text-cyan-400">TypeScript 5 · Ready</span>
+                <span className="text-cyan-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                  <span>TypeScript 5.8 · Copilot Active</span>
+                </span>
                 <span>UTF-8 · LF</span>
               </div>
             </div>
 
             {/* Floating Satellite Badges */}
-            <div className="absolute -top-3 -right-3 px-3 py-1 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-cyan-300 text-xs font-mono shadow-xl backdrop-blur-md animate-float hidden sm:flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400" />
-              <span>Fullstack Web Logic</span>
+            <div className="absolute -top-3 -right-3 px-3 py-1 rounded-xl bg-slate-900/95 border border-cyan-500/50 text-cyan-300 text-xs font-mono shadow-2xl backdrop-blur-md animate-float hidden sm:flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span>Full-Stack Web Logic</span>
             </div>
 
-            <div className="absolute -bottom-3 -left-3 px-3 py-1 rounded-xl bg-slate-900/90 border border-indigo-500/40 text-indigo-300 text-xs font-mono shadow-xl backdrop-blur-md animate-float-reverse hidden sm:flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-indigo-400" />
-              <span>Relational Databases</span>
+            <div className="absolute -bottom-3 -left-3 px-3 py-1 rounded-xl bg-slate-900/95 border border-indigo-500/50 text-indigo-300 text-xs font-mono shadow-2xl backdrop-blur-md animate-float-reverse hidden sm:flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+              <span>AI & CS Fundamentals</span>
             </div>
           </div>
         </div>
