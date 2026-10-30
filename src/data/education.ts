@@ -18,8 +18,8 @@ export const educationItems: EducationItem[] = [
     },
     highlights: [
       {
-        vi: 'Sinh viên năm thứ 2, duy trì tinh thần học tập kỷ luật và kết quả rèn luyện tốt.',
-        en: '2nd-year undergraduate student maintaining disciplined study habits and solid academic performance.',
+        vi: 'Sinh viên năm thứ 3, duy trì tinh thần học tập kỷ luật và kết quả rèn luyện tốt.',
+        en: '3rd-year undergraduate student maintaining disciplined study habits and solid academic performance.',
       },
       {
         vi: 'Tập trung nghiên cứu các môn chuyên ngành: Cấu trúc dữ liệu & Giải thuật, Cơ sở dữ liệu, Lập trình hướng đối tượng, Mạng máy tính và Hệ điều hành.',

@@ -1,7 +1,6 @@
 import { useState, useEffect, type FC, type MouseEvent } from 'react';
 import { Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
-import { useTheme } from '../hooks/useTheme';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 
@@ -20,7 +19,6 @@ const navItems: NavItem[] = [
 
 export const Navbar: FC = () => {
   const { language, t } = useLanguage();
-  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,12 +64,8 @@ export const Navbar: FC = () => {
       <div
         className={`w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 transition-all duration-300 ${
           isScrolled
-            ? theme === 'dark'
-              ? 'bg-[#0b1220]/80 backdrop-blur-xl border border-white/[0.1] shadow-2xl shadow-black/40'
-              : 'bg-white/85 backdrop-blur-xl border border-slate-200/80 shadow-xl shadow-slate-200/50'
-            : theme === 'dark'
-            ? 'bg-[#0b1220]/50 backdrop-blur-md border border-white/[0.05]'
-            : 'bg-white/60 backdrop-blur-md border border-slate-200/50'
+            ? 'bg-white/85 dark:bg-[#0b1220]/80 backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-2xl dark:shadow-black/40'
+            : 'bg-white/60 dark:bg-[#0b1220]/50 backdrop-blur-md border border-slate-200/50 dark:border-white/[0.05]'
         }`}
       >
         <div className="flex items-center justify-between">
@@ -86,7 +80,7 @@ export const Navbar: FC = () => {
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white font-mono font-bold text-sm shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform">
                 TT
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#0b1220] dark:border-[#0b1220]" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white dark:border-[#0b1220]" />
             </div>
 
             <div className="flex flex-col">

@@ -14,7 +14,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="relative min-h-screen bg-blueprint-light dark:bg-blueprint-dark text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-cyan-500/20 selection:text-cyan-400 overflow-x-hidden">
+        <div className="relative min-h-screen bg-blueprint text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-cyan-500/20 selection:text-cyan-600 dark:selection:text-cyan-400 overflow-x-hidden">
           {/* Ambient Lighting Spheres */}
           <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
             <div className="absolute -top-[15%] left-1/2 -translate-x-1/2 w-[900px] sm:w-[1200px] h-[500px] bg-gradient-to-b from-indigo-500/15 via-cyan-500/10 to-transparent blur-[120px] rounded-full dark:opacity-75 opacity-35 animate-glow" />

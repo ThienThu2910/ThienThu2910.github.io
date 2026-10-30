@@ -2,11 +2,18 @@ import { useEffect, useState, type ReactNode, type FC } from 'react';
 import type { Theme } from '../types';
 import { ThemeContext } from './ThemeContext';
 
+const THEME_STORAGE_KEY = 'thien-thu-portfolio-theme';
+
 export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('thien-thu-portfolio-theme') as Theme | null;
-    if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    try {
+      const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+      if (saved === 'dark' || saved === 'light') return saved;
+    } catch (e) {
+      console.warn('Unable to read theme from localStorage:', e);
+    }
+    // Giao diện Dark Mode làm mặc định theo đúng phong cách Modern Developer Portfolio
+    return 'dark';
   });
 
   useEffect(() => {
@@ -18,7 +25,12 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
       root.classList.add('light');
       root.classList.remove('dark');
     }
-    localStorage.setItem('thien-thu-portfolio-theme', theme);
+
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (e) {
+      console.warn('Unable to persist theme to localStorage:', e);
+    }
   }, [theme]);
 
   const toggleTheme = () => {

@@ -24,7 +24,7 @@ export const EducationSection: FC = () => {
           {educationItems.map((item) => (
             <div key={item.id} className="relative group">
               {/* Glowing Node */}
-              <div className="absolute -left-[31px] sm:-left-[39px] top-2 w-5 h-5 rounded-full bg-slate-900 border-4 border-cyan-400 group-hover:scale-125 transition-transform duration-300 shadow-md shadow-cyan-500/50" />
+              <div className="absolute -left-[31px] sm:-left-[39px] top-2 w-5 h-5 rounded-full bg-white dark:bg-slate-900 border-4 border-cyan-500 dark:border-cyan-400 group-hover:scale-125 transition-transform duration-300 shadow-md shadow-cyan-500/50" />
 
               <div className="p-6 sm:p-8 rounded-3xl glass-panel hover-lift border border-slate-200/80 dark:border-white/[0.08]">
                 {/* Period & Status Badges */}

@@ -15,8 +15,8 @@ export const profileData: ProfileData = {
     en: 'Binh Duong University – Ca Mau Campus',
   },
   academicYear: {
-    vi: 'Sinh viên năm 2',
-    en: '2nd Year Undergraduate Student',
+    vi: 'Sinh viên năm 3',
+    en: '3rd Year Undergraduate Student',
   },
   direction: {
     vi: 'Web Development / Software Engineering',
@@ -27,8 +27,8 @@ export const profileData: ProfileData = {
     en: 'Ca Mau, Vietnam',
   },
   shortBio: {
-    vi: 'Sinh viên năm 2 ngành Công nghệ Thông tin với đam mê xây dựng các sản phẩm web và giải pháp phần mềm bài bản, ưu tiên tư duy logic, cấu trúc mã nguồn sạch và trải nghiệm người dùng thực tế.',
-    en: '2nd-year Information Technology student passionate about building solid web applications and software solutions, focusing on logical problem solving, clean code architecture, and practical UX.',
+    vi: 'Sinh viên năm 3 ngành Công nghệ Thông tin với đam mê xây dựng các sản phẩm web và giải pháp phần mềm bài bản, ưu tiên tư duy logic, cấu trúc mã nguồn sạch và trải nghiệm người dùng thực tế.',
+    en: '3rd-year Information Technology student passionate about building solid web applications and software solutions, focusing on logical problem solving, clean code architecture, and practical UX.',
   },
   aboutDetails: {
     story: [
