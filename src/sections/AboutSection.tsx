@@ -33,7 +33,7 @@ export const AboutSection: FC = () => {
                 {language === 'vi' ? 'Đam mê xây dựng phần mềm thực tế' : 'Turning Logic into Reliable Software'}
               </h3>
 
-              <div className="space-y-3.5 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              <div className="space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 <p>
                   {language === 'vi'
                     ? 'Tôi là sinh viên năm thứ hai chuyên ngành Công nghệ Thông tin tại Đại học Bình Dương (Phân hiệu Cà Mau). Trong học tập, tôi đặc biệt chú trọng việc nắm vững bản chất của cấu trúc dữ liệu, giải thuật và các mô hình kiến trúc phần mềm.'
@@ -47,7 +47,7 @@ export const AboutSection: FC = () => {
               </div>
             </div>
 
-            <div className="mt-6 pt-5 border-t border-slate-200 dark:border-white/[0.08] flex flex-wrap items-center gap-4 text-xs font-mono text-slate-500 dark:text-slate-400">
+            <div className="mt-6 pt-5 border-t border-slate-200 dark:border-white/[0.08] flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-mono text-slate-500 dark:text-slate-400">
               <span className="flex items-center gap-1.5 text-indigo-500 dark:text-indigo-400">
                 <Code2 className="w-4 h-4" />
                 Clean Code Architecture
@@ -65,7 +65,7 @@ export const AboutSection: FC = () => {
             </div>
           </div>
 
-          {/* Bento Card 2: Academic Profile & Snapshot (5 Cols) */}
+          {/* Bento Card 2: Academic Profile & Snapshot (4-5 Cols) */}
           <div className="md:col-span-5 lg:col-span-4 p-6 sm:p-8 rounded-3xl glass-panel hover-lift flex flex-col justify-between">
             <div>
               <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center mb-5">
@@ -77,27 +77,27 @@ export const AboutSection: FC = () => {
               </h3>
 
               <div className="space-y-3 text-xs sm:text-sm">
-                <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
-                  <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
+                <div className="p-3.5 rounded-2xl bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
+                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                     {language === 'vi' ? 'Trường Đại học' : 'Institution'}
                   </span>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100">
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">
                     {t(profileData.university)}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
-                  <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
-                    {language === 'vi' ? 'Tiến độ' : 'Status'}
+                <div className="p-3.5 rounded-2xl bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
+                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
+                    {language === 'vi' ? 'Tiến độ đào tạo' : 'Academic Standing'}
                   </span>
                   <p className="font-semibold text-cyan-600 dark:text-cyan-400">
                     {t(profileData.academicYear)} · CNTT
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
-                  <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
-                    {language === 'vi' ? 'Mục tiêu' : 'Career Focus'}
+                <div className="p-3.5 rounded-2xl bg-slate-100/70 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.06]">
+                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
+                    {language === 'vi' ? 'Định hướng chuyên môn' : 'Career Focus'}
                   </span>
                   <p className="font-semibold text-indigo-600 dark:text-indigo-400">
                     {t(profileData.direction)}
@@ -148,7 +148,7 @@ export const AboutSection: FC = () => {
                   key={idx}
                   className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-100/50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.05]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 mt-2" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 mt-1.5" />
                   <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-normal">
                     {t(hl)}
                   </p>

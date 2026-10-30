@@ -5,6 +5,6 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // Dùng base tương đối './' giúp tương thích mọi tên repository trên GitHub Pages hoặc domain tùy chỉnh
-  base: './',
+  // Dành riêng cho User Pages (ThienThu2910.github.io)
+  base: '/',
 })
