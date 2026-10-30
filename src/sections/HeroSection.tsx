@@ -1,4 +1,4 @@
-import { useState, type FC, type MouseEvent } from 'react';
+import { useState, useEffect, type FC, type MouseEvent } from 'react';
 import {
   ArrowDown,
   Mail,
@@ -37,6 +37,52 @@ export const HeroSection: FC = () => {
       : 'Web, Software & AI Engineering Focus';
 
   const { displayText: scrambledRole, replay: replayScramble } = useScrambleText(rawRoleText, 30);
+
+  // ── Orbit entrance animation (runs once on mount) ──────────────────────────
+  useEffect(() => {
+    const html = document.documentElement;
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mql.matches) return; // Respect reduced-motion
+
+    html.classList.add('orbit-intro');
+
+    // Failsafe: remove after 5 s even if fonts never load
+    const failsafe = setTimeout(() => {
+      html.classList.remove('orbit-intro', 'orbit-play');
+    }, 5000);
+
+    const start = () => {
+      html.classList.add('orbit-play');
+
+      // Clean up after last CTA button animation ends (~1.69 s)
+      const cleanup = setTimeout(() => {
+        html.classList.remove('orbit-intro', 'orbit-play');
+      }, 3000);
+
+      return cleanup;
+    };
+
+    let cleanupTimer: ReturnType<typeof setTimeout>;
+
+    document.fonts.ready.then(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          cleanupTimer = start();
+        });
+      });
+    }).catch(() => {
+      // Font API unavailable — start immediately
+      setTimeout(() => {
+        cleanupTimer = start();
+      }, 700);
+    });
+
+    return () => {
+      clearTimeout(failsafe);
+      clearTimeout(cleanupTimer);
+      html.classList.remove('orbit-intro', 'orbit-play');
+    };
+  }, []);
 
   const developerCodeSnippet = `// developer.config.ts
 export const candidate = {
@@ -86,18 +132,15 @@ export const candidate = {
   return (
     <section
       id="hero"
-      className="relative min-h-[88vh] flex items-center justify-center pt-8 pb-12 sm:pb-16 overflow-hidden"
+      className="relative min-h-[88vh] flex items-center justify-center pt-24 pb-16 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Column: Core Positioning & Pitch */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            {/* Live Availability Status Pill with AI Radar */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium border border-cyan-500/30 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 mb-6 shadow-sm backdrop-blur-md">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
-              </span>
+            {/* Live Status Pill — Orbit style */}
+            <div className="orbit-anim-brand orbit-status-pill mb-6">
+              <span className="orbit-dot" />
               <span>
                 {language === 'vi'
                   ? 'Sinh viên CNTT · Sẵn sàng thực tập Web & Software'
@@ -105,52 +148,57 @@ export const candidate = {
               </span>
             </div>
 
-            {/* Name with Gradient Shine & AI Hologram Accent */}
-            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-3">
-              <span className="block text-slate-800 dark:text-slate-100">
-                {language === 'vi' ? 'Xin chào, tôi là' : "Hi, I'm"}
+            {/* Name — Orbit line reveal animation */}
+            <h1 className="text-4xl sm:text-6xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.1] mb-3" style={{ color: '#ffffff' }}>
+              <span className="orbit-ln block">
+                <span className="orbit-ln-i" style={{ color: 'rgba(255,255,255,0.78)' }}>
+                  {language === 'vi' ? 'Xin chào, tôi là' : "Hi, I'm"}
+                </span>
               </span>
-              <span className="bg-gradient-to-r from-indigo-500 via-cyan-400 to-teal-400 bg-clip-text text-transparent cyber-glow-cyan">
-                {profileData.name}
+              <span className="orbit-ln block">
+                <span className="orbit-ln-i orbit-headline-gradient">
+                  {profileData.name}
+                </span>
               </span>
             </h1>
 
-            {/* Sub-headline: Role & Direction with Scramble Matrix Effect */}
+            {/* Sub-headline: Role & Direction */}
             <div
               onMouseEnter={replayScramble}
-              className="flex flex-wrap items-center gap-2 text-base sm:text-xl font-heading font-semibold text-slate-700 dark:text-slate-300 mb-4 cursor-pointer group"
+              className="flex flex-wrap items-center gap-2 text-base sm:text-xl font-heading font-semibold mb-4 cursor-pointer group"
+              style={{ color: 'rgba(255,255,255,0.75)' }}
               title="Click hoặc rê chuột để kích hoạt Matrix Decoding"
             >
               <span>{t(profileData.role)}</span>
-              <span className="text-cyan-500 dark:text-cyan-400">·</span>
-              <span className="text-indigo-600 dark:text-cyan-400 font-mono tracking-wide underline decoration-cyan-400/40 underline-offset-4 group-hover:decoration-cyan-400">
+              <span style={{ color: 'var(--color-cyan)' }}>·</span>
+              <span className="font-mono tracking-wide underline underline-offset-4 group-hover:decoration-cyan-400" style={{ color: 'var(--color-cyan)', textDecorationColor: 'rgba(112,224,255,0.35)' }}>
                 {scrambledRole}
               </span>
             </div>
 
             {/* Institution & Location Pills */}
-            <div className="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-mono text-slate-600 dark:text-slate-400 mb-6">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-200/60 dark:bg-white/[0.05] border border-slate-300/70 dark:border-white/[0.08]">
-                <GraduationCap className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+            <div className="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-mono mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                <GraduationCap className="w-4 h-4" style={{ color: 'var(--color-indigo)' }} />
                 {t(profileData.university)}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-200/60 dark:bg-white/[0.05] border border-slate-300/70 dark:border-white/[0.08]">
-                <MapPin className="w-4 h-4 text-cyan-500" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                <MapPin className="w-4 h-4" style={{ color: 'var(--color-cyan)' }} />
                 {t(profileData.location)}
               </span>
             </div>
 
-            {/* Concise Bio */}
-            <p className="max-w-xl text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
+            {/* Concise Bio — Orbit sub animation */}
+            <p className="orbit-anim-p max-w-xl text-sm sm:text-base leading-relaxed mb-8" style={{ color: 'rgba(255,255,255,0.60)' }}>
               {t(profileData.shortBio)}
             </p>
 
-            {/* Dual CTAs */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
+            {/* Dual CTAs — Orbit btn animation */}
+            <div className="orbit-anim-cta flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
               <a
                 href="#projects"
                 onClick={(e) => handleScrollToSection(e, 'projects')}
-                className="ember-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 shadow-lg shadow-indigo-500/25 transition-all hover:scale-105 active:scale-95 focus:outline-none"
+                className="orbit-btn-solid ember-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm focus:outline-none"
               >
                 <span>{language === 'vi' ? 'Xem các dự án thực tế' : 'Explore Featured Projects'}</span>
                 <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -159,15 +207,15 @@ export const candidate = {
               <a
                 href="#contact"
                 onClick={(e) => handleScrollToSection(e, 'contact')}
-                className="ember-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200 bg-white dark:bg-[#110A2A] border border-slate-300 dark:border-white/[0.12] shadow-sm transition-all hover:scale-105 active:scale-95"
+                className="orbit-btn-ghost ember-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm"
               >
-                <Mail className="w-4 h-4 text-cyan-400" />
+                <Mail className="w-4 h-4" style={{ color: 'var(--color-cyan)' }} />
                 <span>{language === 'vi' ? 'Liên hệ với tôi' : 'Get in Touch'}</span>
               </a>
             </div>
 
             {/* Social Proof & Quick Channels */}
-            <div className="flex items-center gap-3 pt-2 text-xs font-mono text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-3 pt-2 text-xs font-mono" style={{ color: 'rgba(255,255,255,0.45)' }}>
               <span className="text-[11px] uppercase tracking-wider">
                 {language === 'vi' ? 'Kênh kết nối:' : 'Channels:'}
               </span>
@@ -177,14 +225,18 @@ export const candidate = {
                   href={profileData.contact.githubUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-colors"
+                  className="p-2 rounded-xl transition-colors"
+                  style={{ color: 'rgba(255,255,255,0.45)' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-cyan)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.45)')}
                   aria-label="GitHub Profile"
                 >
                   <GithubIcon className="w-4 h-4" />
                 </a>
               ) : (
                 <span
-                  className="px-2.5 py-0.5 rounded text-[11px] font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-white/[0.04]"
+                  className="px-2.5 py-0.5 rounded text-[11px] font-mono"
+                  style={{ color: 'rgba(255,255,255,0.30)', background: 'rgba(255,255,255,0.04)' }}
                   title="GitHub link: Cần bổ sung"
                 >
                   GitHub (TODO)
@@ -196,14 +248,18 @@ export const candidate = {
                   href={profileData.contact.linkedinUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-white/[0.08] transition-colors"
+                  className="p-2 rounded-xl transition-colors"
+                  style={{ color: 'rgba(255,255,255,0.45)' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-cyan)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.45)')}
                   aria-label="LinkedIn Profile"
                 >
                   <LinkedinIcon className="w-4 h-4" />
                 </a>
               ) : (
                 <span
-                  className="px-2.5 py-0.5 rounded text-[11px] font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-white/[0.04]"
+                  className="px-2.5 py-0.5 rounded text-[11px] font-mono"
+                  style={{ color: 'rgba(255,255,255,0.30)', background: 'rgba(255,255,255,0.04)' }}
                   title="LinkedIn link: Cần bổ sung"
                 >
                   LinkedIn (TODO)
@@ -212,13 +268,13 @@ export const candidate = {
             </div>
           </div>
 
-          {/* Right Column: High-End Interactive Cyber IDE & AI Copilot Showcase */}
+          {/* Right Column: Interactive Cyber IDE & AI Copilot Showcase */}
           <div className="lg:col-span-5 relative">
-            {/* Ambient Warm Candle & Ghost Glow Pod */}
-            <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full glow-warm flicker-candle pointer-events-none -z-10 opacity-70" />
-            <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full glow-cold breathe-glow pointer-events-none -z-10 opacity-60" />
+            {/* Space glow accents */}
+            <div className="orbit-glow-cyan absolute -top-12 -right-12 w-52 h-52 -z-10 opacity-60" />
+            <div className="orbit-glow-indigo absolute -bottom-12 -left-12 w-48 h-48 -z-10 opacity-50" />
 
-            <div className="relative rounded-2xl bg-[#090E1A] dark:bg-[#0c0620] border border-cyan-500/30 dark:border-white/[0.12] shadow-2xl shadow-indigo-950/40 overflow-hidden backdrop-blur-xl cyber-corners">
+            <div className="relative rounded-2xl overflow-hidden cyber-corners glass-panel" style={{ border: '1px solid rgba(112,224,255,0.18)', boxShadow: '0 0 40px rgba(112,224,255,0.05), 0 24px 60px rgba(0,0,0,0.5)' }}>
               {/* Animated Radar Scanning Line */}
               <div className="cyber-scanline" />
 

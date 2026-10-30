@@ -68,9 +68,14 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
       <div
         className={`w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/85 dark:bg-[#0b1220]/80 backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.1] shadow-xl shadow-slate-200/50 dark:shadow-2xl dark:shadow-black/40'
-            : 'bg-white/60 dark:bg-[#0b1220]/50 backdrop-blur-md border border-slate-200/50 dark:border-white/[0.05]'
+            ? 'backdrop-blur-xl border shadow-2xl'
+            : 'backdrop-blur-md border'
         }`}
+        style={{
+          background: isScrolled ? 'rgba(7,6,15,0.82)' : 'rgba(7,6,15,0.45)',
+          borderColor: isScrolled ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.06)',
+          boxShadow: isScrolled ? '0 8px 40px rgba(0,0,0,0.60), inset 0 1px 0 rgba(255,255,255,0.06)' : 'none',
+        }}
       >
         <div className="flex items-center justify-between">
           {/* Logo / Monogram */}
@@ -84,14 +89,14 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white font-mono font-bold text-sm shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform">
                 TT
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white dark:border-[#0b1220]" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2" style={{ borderColor: 'rgba(7,6,15,0.9)' }} />
             </div>
 
             <div className="flex flex-col">
-              <span className="font-heading font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100 group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
+              <span className="font-heading font-bold text-sm sm:text-base text-white group-hover:text-cyan-300 transition-colors">
                 Trương Thiện Thư
               </span>
-              <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1">
+              <span className="text-[10px] font-mono flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 IT Developer
               </span>
@@ -107,11 +112,18 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={(e) => handleNavClick(e, item.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-                    isActive
-                      ? 'bg-slate-900/10 dark:bg-white/[0.08] text-indigo-600 dark:text-cyan-300 font-semibold shadow-inner'
-                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/60 dark:hover:bg-white/[0.04]'
-                  }`}
+                  className="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200"
+                  style={{
+                    color: isActive ? 'var(--color-cyan)' : 'rgba(255,255,255,0.65)',
+                    background: isActive ? 'rgba(112,224,255,0.10)' : 'transparent',
+                    fontWeight: isActive ? '600' : '450',
+                  }}
+                  onMouseEnter={e => {
+                    if (!isActive) (e.currentTarget as HTMLAnchorElement).style.color = '#ffffff';
+                  }}
+                  onMouseLeave={e => {
+                    if (!isActive) (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.65)';
+                  }}
                 >
                   {t(item.label)}
                 </a>
@@ -125,12 +137,17 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
               <button
                 onClick={onOpenCommandPalette}
                 type="button"
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100/80 dark:bg-white/[0.06] hover:bg-slate-200 dark:hover:bg-white/[0.1] border border-slate-200/80 dark:border-white/[0.08] transition-all hover:scale-105"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono transition-all hover:scale-105"
+                style={{
+                  color: 'rgba(255,255,255,0.55)',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
                 title="Mở bảng điều khiển nhanh (Ctrl + K)"
                 aria-label="Mở bảng điều khiển nhanh"
               >
-                <Command className="w-3.5 h-3.5 text-cyan-500" />
-                <span className="font-semibold text-slate-800 dark:text-slate-200">⌘K</span>
+                <Command className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="font-semibold text-white/80">⌘K</span>
               </button>
             )}
             <LanguageToggle />
@@ -151,7 +168,11 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
               <button
                 onClick={onOpenCommandPalette}
                 type="button"
-                className="p-1.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/[0.08] transition-colors font-mono text-xs flex items-center gap-1 border border-slate-200/60 dark:border-white/[0.08]"
+                className="p-1.5 rounded-xl transition-colors font-mono text-xs flex items-center gap-1"
+                style={{
+                  color: 'rgba(255,255,255,0.60)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
                 title="Mở Quick Actions"
                 aria-label="Mở Quick Actions"
               >
@@ -163,7 +184,8 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="p-1.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/[0.08] transition-colors focus:outline-none"
+              className="p-1.5 rounded-xl transition-colors focus:outline-none"
+              style={{ color: 'rgba(255,255,255,0.75)' }}
               aria-label={isOpen ? 'Đóng menu' : 'Mở menu'}
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -173,7 +195,7 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
 
         {/* Mobile Dropdown Panel */}
         {isOpen && (
-          <div className="sm:hidden mt-3 pt-3 border-t border-slate-200/60 dark:border-white/[0.08] pb-2 animate-fadeIn">
+          <div className="sm:hidden mt-3 pt-3 pb-2 animate-fadeIn" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
               {navItems.map((item) => {
                 const isActive = activeSection === item.id;
@@ -182,11 +204,11 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
                     key={item.id}
                     href={`#${item.id}`}
                     onClick={(e) => handleNavClick(e, item.id)}
-                    className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-                      isActive
-                        ? 'bg-indigo-500/10 text-indigo-600 dark:text-cyan-400 font-semibold'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/[0.04]'
-                    }`}
+                    className="px-3 py-2 rounded-xl text-sm font-medium transition-colors"
+                    style={{
+                      color: isActive ? 'var(--color-cyan)' : 'rgba(255,255,255,0.70)',
+                      background: isActive ? 'rgba(112,224,255,0.08)' : 'transparent',
+                    }}
                   >
                     {t(item.label)}
                   </a>
