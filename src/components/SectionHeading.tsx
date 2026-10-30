@@ -31,9 +31,12 @@ export const SectionHeading: FC<SectionHeadingProps> = ({
         <span>{eyebrow}</span>
       </div>
 
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white mb-4">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white mb-3">
         {title}
       </h2>
+
+      {/* Hollowmere-style atmospheric dividing beam */}
+      <div className={`w-32 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent mb-4 ${isCenter ? 'mx-auto' : ''}`} />
 
       {subtitle && (
         <p className="max-w-2xl text-sm sm:text-base text-slate-600 dark:text-slate-400 mx-auto leading-relaxed font-normal">

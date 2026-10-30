@@ -205,7 +205,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project, onSelect }) => {
           <button
             onClick={() => onSelect(project)}
             type="button"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-heading font-bold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 shadow-md shadow-indigo-500/20 transition-all hover:scale-105 active:scale-95"
+            className="ember-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-heading font-bold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 shadow-md shadow-indigo-500/20 transition-all hover:scale-105 active:scale-95"
           >
             <span>{language === 'vi' ? 'Chi tiết giải pháp' : 'View Case Study'}</span>
             <ArrowUpRight className="w-4 h-4" />

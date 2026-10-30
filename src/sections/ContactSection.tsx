@@ -237,7 +237,7 @@ export const ContactSection: FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-heading font-bold text-sm text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 shadow-lg shadow-indigo-500/25 hover:shadow-cyan-500/30 transition-all hover:scale-[1.01] active:scale-95 focus:outline-none"
+                  className="ember-btn w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-heading font-bold text-sm text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 shadow-lg shadow-indigo-500/25 transition-all hover:scale-[1.01] active:scale-95 focus:outline-none"
                 >
                   <Send className="w-4 h-4" />
                   <span>{language === 'vi' ? 'Mở trình duyệt Email & Gửi' : 'Open in Email Client & Send'}</span>

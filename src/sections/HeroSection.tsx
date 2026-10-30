@@ -150,7 +150,7 @@ export const candidate = {
               <a
                 href="#projects"
                 onClick={(e) => handleScrollToSection(e, 'projects')}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 shadow-lg shadow-indigo-500/25 hover:shadow-cyan-500/30 transition-all hover:scale-105 active:scale-95 focus:outline-none"
+                className="ember-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 shadow-lg shadow-indigo-500/25 transition-all hover:scale-105 active:scale-95 focus:outline-none"
               >
                 <span>{language === 'vi' ? 'Xem các dự án thực tế' : 'Explore Featured Projects'}</span>
                 <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -159,7 +159,7 @@ export const candidate = {
               <a
                 href="#contact"
                 onClick={(e) => handleScrollToSection(e, 'contact')}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200 bg-white dark:bg-[#111827] border border-slate-300 dark:border-white/[0.12] hover:bg-slate-100 dark:hover:bg-white/[0.06] shadow-sm transition-all hover:scale-105 active:scale-95"
+                className="ember-btn inline-flex items-center gap-2 px-6 py-3 rounded-full font-heading font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200 bg-white dark:bg-[#110A2A] border border-slate-300 dark:border-white/[0.12] shadow-sm transition-all hover:scale-105 active:scale-95"
               >
                 <Mail className="w-4 h-4 text-cyan-400" />
                 <span>{language === 'vi' ? 'Liên hệ với tôi' : 'Get in Touch'}</span>
@@ -214,7 +214,11 @@ export const candidate = {
 
           {/* Right Column: High-End Interactive Cyber IDE & AI Copilot Showcase */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl bg-[#090E1A] border border-cyan-500/30 dark:border-white/[0.12] shadow-2xl shadow-indigo-950/40 overflow-hidden backdrop-blur-xl cyber-corners">
+            {/* Ambient Warm Candle & Ghost Glow Pod */}
+            <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full glow-warm flicker-candle pointer-events-none -z-10 opacity-70" />
+            <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full glow-cold breathe-glow pointer-events-none -z-10 opacity-60" />
+
+            <div className="relative rounded-2xl bg-[#090E1A] dark:bg-[#0c0620] border border-cyan-500/30 dark:border-white/[0.12] shadow-2xl shadow-indigo-950/40 overflow-hidden backdrop-blur-xl cyber-corners">
               {/* Animated Radar Scanning Line */}
               <div className="cyber-scanline" />
 

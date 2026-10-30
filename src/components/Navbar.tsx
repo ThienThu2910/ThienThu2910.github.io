@@ -138,7 +138,7 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, 'contact')}
-              className="ml-1 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white shadow-md shadow-indigo-500/20 hover:shadow-cyan-500/25 transition-all hover:scale-[1.03] active:scale-95"
+              className="ember-btn ml-1 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-md shadow-indigo-500/20 transition-all hover:scale-[1.03] active:scale-95"
             >
               <span>{language === 'vi' ? 'Liên hệ' : 'Contact'}</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
