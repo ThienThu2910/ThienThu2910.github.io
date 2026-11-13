@@ -51,12 +51,10 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
     e.preventDefault();
     setIsOpen(false);
     const element = document.getElementById(targetId);
-    if (element) {
-      // Offset accounts for fixed header (navbar + telemetry bar)
-      const headerH = 72 + 36; // --navbar-h + --telebar-h
-      const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({ top: elementTop - headerH - 8, behavior: 'smooth' });
-    }
+    if (!element) return;
+
+    setActiveSection(targetId);
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -150,8 +148,10 @@ export const Navbar: FC<NavbarProps> = ({ onOpenCommandPalette }) => {
             <LanguageToggle />
             <ThemeToggle />
             <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, 'contact')}
+              href="https://github.com/ThienThu2910"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Mở hồ sơ GitHub của Trương Thiện Thư trong tab mới"
               className="ember-btn ml-1 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wide bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-md shadow-indigo-500/20 transition-all hover:scale-[1.03] active:scale-95"
             >
               <span>{language === 'vi' ? 'Liên hệ' : 'Contact'}</span>

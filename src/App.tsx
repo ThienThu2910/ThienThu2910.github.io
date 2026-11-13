@@ -68,35 +68,35 @@ function PortfolioApp() {
         </section>
 
         {/* ABOUT ME */}
-        <section id="about" className="orbit-section">
+        <section className="orbit-section">
           <div className="orbit-glass-section">
             <AboutSection />
           </div>
         </section>
 
         {/* SKILLS */}
-        <section id="skills" className="orbit-section">
+        <section className="orbit-section">
           <div className="orbit-glass-section">
             <SkillsSection />
           </div>
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" className="orbit-section">
+        <section className="orbit-section">
           <div className="orbit-glass-section">
             <ProjectsSection />
           </div>
         </section>
 
         {/* EDUCATION */}
-        <section id="education" className="orbit-section">
+        <section className="orbit-section">
           <div className="orbit-glass-section">
             <EducationSection />
           </div>
         </section>
 
         {/* CONTACT */}
-        <section id="contact" className="orbit-section">
+        <section className="orbit-section">
           <div className="orbit-glass-section">
             <ContactSection />
           </div>

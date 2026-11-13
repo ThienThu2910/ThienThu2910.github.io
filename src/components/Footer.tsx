@@ -13,14 +13,7 @@ export const Footer: FC = () => {
     e.preventDefault();
     const element = document.getElementById(targetId);
     if (element) {
-      const navOffset = 90;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -31,9 +24,14 @@ export const Footer: FC = () => {
           {/* Identity & Campus */}
           <div>
             <div className="flex items-center justify-center md:justify-start gap-2.5 mb-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center text-white font-mono font-bold text-xs shadow-md shadow-indigo-500/20">
+              <a
+                href="#hero"
+                onClick={(e) => handleNavClick(e, 'hero')}
+                aria-label="Về đầu trang"
+                className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center text-white font-mono font-bold text-xs shadow-md shadow-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+              >
                 TT
-              </div>
+              </a>
               <span className="font-heading font-extrabold text-white text-base">
                 {profileData.name}
               </span>

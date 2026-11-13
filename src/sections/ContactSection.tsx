@@ -32,7 +32,8 @@ export const ContactSection: FC = () => {
     e.preventDefault();
     if (!formData.name || !formData.message) return;
 
-    const targetEmail = email || 'thienthu.dev@example.com';
+    if (!email) return;
+    const targetEmail = email;
     const mailtoSubject = encodeURIComponent(`[Portfolio Contact] ${formData.subject || 'Liên hệ từ website'}`);
     const mailtoBody = encodeURIComponent(
       `Chào Thiện Thư,\n\nTôi là: ${formData.name} (${formData.email || 'Không đính kèm email'})\n\nNội dung trao đổi:\n${formData.message}\n`
@@ -82,6 +83,7 @@ export const ContactSection: FC = () => {
                     <a
                       href={`mailto:${email}`}
                       className="font-mono text-sm text-cyan-600 dark:text-cyan-400 hover:underline break-all font-semibold"
+                      aria-label={`Gửi email đến ${email}`}
                     >
                       {email}
                     </a>
@@ -102,7 +104,7 @@ export const ContactSection: FC = () => {
                 ) : (
                   <div className="flex items-center gap-2 text-xs font-mono text-amber-600 dark:text-amber-400">
                     <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>{language === 'vi' ? 'Email: Cần bổ sung trong profile.ts' : 'Email: Pending in profile.ts'}</span>
+                    <span>{language === 'vi' ? 'Chưa cập nhật địa chỉ email' : 'Email address not provided'}</span>
                   </div>
                 )}
               </div>
@@ -151,12 +153,7 @@ export const ContactSection: FC = () => {
                       <LinkedinIcon className="w-4 h-4" />
                       <span>LinkedIn</span>
                     </a>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-white/[0.04] cursor-not-allowed">
-                      <LinkedinIcon className="w-3.5 h-3.5 opacity-40" />
-                      <span>LinkedIn (TODO)</span>
-                    </span>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>

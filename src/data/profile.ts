@@ -33,8 +33,8 @@ export const profileData: ProfileData = {
   aboutDetails: {
     story: [
       {
-        vi: 'Tôi hiện là sinh viên năm thứ hai chuyên ngành Công nghệ Thông tin tại Đại học Bình Dương (Phân hiệu Cà Mau). Trong quá trình học, tôi tập trung rèn luyện nền tảng thuật toán, kiến trúc hệ thống và quy trình phát triển phần mềm chuẩn.',
-        en: "I am currently a second-year Information Technology student at Binh Duong University (Ca Mau Campus). During my studies, I focus on building solid algorithmic foundations, system architecture knowledge, and standardized software development workflows.",
+        vi: 'Tôi hiện là sinh viên năm thứ ba ngành Công nghệ Thông tin tại Đại học Bình Dương (Phân hiệu Cà Mau). Trong quá trình học, tôi tập trung rèn luyện nền tảng thuật toán, kiến trúc hệ thống và quy trình phát triển phần mềm chuẩn.',
+        en: "I am currently a third-year Information Technology student at Binh Duong University (Ca Mau Campus). During my studies, I focus on building solid algorithmic foundations, system architecture knowledge, and standardized software development workflows.",
       },
       {
         vi: 'Tôi luôn tìm tòi các công nghệ mới và hứng thú với việc biến những bài toán quản lý, điều phối logic phức tạp thành các ứng dụng phần mềm trực quan, dễ thao tác và có giá trị sử dụng thật sự.',
@@ -76,8 +76,8 @@ export const profileData: ProfileData = {
     // Thay đổi các giá trị dưới đây thành thông tin thật khi bạn sẵn sàng.
     // Nếu để null, giao diện sẽ hiển thị nhãn "Chờ cập nhật" để đảm bảo tính trung thực.
     // =========================================================================
-    email: null, // TODO: Cung cấp địa chỉ email của bạn (Ví dụ: 'example@email.com')
-    githubUrl: null, // TODO: Cung cấp URL GitHub cá nhân (Ví dụ: 'https://github.com/your-username')
+    email: 'thienthu2919@gmail.com',
+    githubUrl: 'https://github.com/ThienThu2910',
     linkedinUrl: null, // TODO: Cung cấp URL LinkedIn cá nhân nếu có (Ví dụ: 'https://linkedin.com/in/your-profile')
     cvPath: null, // TODO: Đặt file cv.pdf vào thư mục public/ và đổi giá trị thành './cv.pdf'
   },

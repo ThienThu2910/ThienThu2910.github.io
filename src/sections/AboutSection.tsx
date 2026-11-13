@@ -36,8 +36,8 @@ export const AboutSection: FC = () => {
               <div className="space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 <p>
                   {language === 'vi'
-                    ? 'Tôi là sinh viên năm thứ hai chuyên ngành Công nghệ Thông tin tại Đại học Bình Dương (Phân hiệu Cà Mau). Trong học tập, tôi đặc biệt chú trọng việc nắm vững bản chất của cấu trúc dữ liệu, giải thuật và các mô hình kiến trúc phần mềm.'
-                    : 'I am a 2nd-year Information Technology student at Binh Duong University (Ca Mau Campus). I dedicate myself to mastering foundational data structures, algorithmic design, and standardized software patterns.'}
+                    ? 'Tôi là sinh viên năm thứ ba chuyên ngành Công nghệ Thông tin tại Đại học Bình Dương (Phân hiệu Cà Mau). Trong học tập, tôi đặc biệt chú trọng việc nắm vững bản chất của cấu trúc dữ liệu, giải thuật và các mô hình kiến trúc phần mềm.'
+                    : 'I am a 3rd-year Information Technology student at Binh Duong University (Ca Mau Campus). I dedicate myself to mastering foundational data structures, algorithmic design, and standardized software patterns.'}
                 </p>
                 <p>
                   {language === 'vi'

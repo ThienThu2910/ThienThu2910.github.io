@@ -173,6 +173,16 @@ code, pre, .font-mono {
   width: 100%;
 }
 
+/* Keep anchor targets visible below the fixed navbar and telemetry strip. */
+#hero,
+#about,
+#skills,
+#projects,
+#education,
+#contact {
+  scroll-margin-top: calc(var(--header-total) + 8px);
+}
+
 /* Hero section — fills remaining viewport height below header */
 .orbit-section-hero {
   min-height: calc(100vh - var(--header-total));

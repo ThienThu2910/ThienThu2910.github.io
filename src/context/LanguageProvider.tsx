@@ -4,12 +4,20 @@ import { LanguageContext } from './LanguageContext';
 
 export const LanguageProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('thien-thu-portfolio-lang') as Language | null;
-    return saved === 'en' || saved === 'vi' ? saved : 'vi';
+    try {
+      const saved = localStorage.getItem('thien-thu-portfolio-lang') as Language | null;
+      return saved === 'en' || saved === 'vi' ? saved : 'vi';
+    } catch {
+      return 'vi';
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('thien-thu-portfolio-lang', language);
+    try {
+      localStorage.setItem('thien-thu-portfolio-lang', language);
+    } catch {
+      // The selected language still works for the current session.
+    }
     document.documentElement.lang = language;
   }, [language]);
 
